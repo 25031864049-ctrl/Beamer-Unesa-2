@@ -1,0 +1,175 @@
+% Unesa presentation light theme for beamer
+% Dimas Maulana <dimasmaulana@unesa.ac.id>, 2025
+% 
+% Changelog: Adapted to Unesa GSM 025:
+% First public version.
+
+\ProvidesPackage{beamerthemeUnesa-Light}[2024/08/26]
+\RequirePackage{fontspec, unicode-math}
+\newfontfamily\poppins{Poppins}
+\newfontfamily\lato{Lato}
+\setmainfont{Lato}
+\setsansfont{Lato}
+\setmathfont{STIX Two Math}
+
+
+% Title and frame title in Poppins
+\setbeamerfont{title}{family=\poppins}
+\setbeamerfont{frametitle}{family=\poppins}
+
+\usepackage[absolute,overlay]{textpos}
+\usefonttheme{structurebold}
+
+\pgfdeclareimage[width=\paperwidth, height=\paperheight]{cover}{cover}
+\pgfdeclareimage[width=\paperwidth]{content}{content}
+\pgfdeclareimage[width=\paperwidth, height=\paperheight]{end}{end}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Colours
+%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{RussianViolet}{RGB}{32,21,71}
+\definecolor{Gold}{RGB}{216,174,71}
+\definecolor{SlateBlue}{RGB}{72,54,136}
+\definecolor{PastelGrey}{RGB}{203,203,203}
+\definecolor{White}{RGB}{255,255,255}
+
+
+\usecolortheme[named=RussianViolet]{structure}
+% Text & bullets
+\setbeamercolor{item}{fg=RussianViolet}
+
+% Title slide elements
+\setbeamercolor{title}{fg=SlateBlue}
+\setbeamercolor{subtitle}{fg=SlateBlue}
+\setbeamercolor{author}{fg=RussianViolet}
+\setbeamercolor{date}{fg=SlateBlue}
+\setbeamercolor{institute}{fg=SlateBlue!80!black}
+
+% Navigation structure
+\setbeamercolor{section in head/foot}{fg=White,bg=RussianViolet}
+\setbeamercolor{separator}{fg=Gold}
+
+% Page numbers / footline
+\setbeamercolor{page number in head/foot}{bg=White,fg=RussianViolet}
+\setbeamercolor{footline}{bg=White,fg=RussianViolet}
+
+% Mini frame in sidebar/TOC
+\setbeamercolor{mini frame}{fg=RussianViolet,bg=RussianViolet!10}
+
+% Regular Block
+\setbeamercolor{block title}{fg=white, bg=SlateBlue}
+\setbeamercolor{block body}{fg=black, bg=PastelGrey}
+
+% Alert Block (e.g., red tones)
+\setbeamercolor{block title alerted}{fg=red!20, bg=RussianViolet}
+\setbeamercolor{block body alerted}{fg=White, bg=RussianViolet!60}
+
+% Example Block (e.g., green or gold)
+\setbeamercolor{block title example}{fg=white, bg=Gold}
+\setbeamercolor{block body example}{fg=black, bg=Gold!20}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Inner theme
+%%%%%%%%%%%%%%%%%%%%%%%%
+\useinnertheme{rounded}
+\setbeamertemplate{itemize item}{\textbullet}
+\setbeamertemplate{enumerate items}[default]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Outer theme
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Create counter to mark last slide
+\newcounter{lastslide}
+
+% Template logic for background canvas
+\setbeamertemplate{background canvas}{
+	\ifnum\c@framenumber=1
+	\pgfuseimage{cover}
+	\else
+	\ifnum\c@framenumber=\value{lastslide}
+	\pgfuseimage{end}
+	\else
+	\pgfuseimage{content}
+	\fi
+	\fi
+}
+
+\setbeamertemplate{navigation symbols}{%
+	\insertslidenavigationsymbol%
+	\insertframenavigationsymbol%
+}
+\setbeamertemplate{frametitle}{
+	\begin{center}
+		\begin{minipage}{0.6\paperwidth} % Limit width to 60% and center
+			\begin{beamercolorbox}[sep=0.3em,center]{frametitle}
+				{
+					\usebeamerfont{frametitle} \fontsize{13pt}{15pt}\selectfont \insertframetitle
+				}
+			\end{beamercolorbox}
+		\end{minipage}
+	\end{center}
+	}
+%\setbeamertemplate{frametitle}[default][center]
+\makeatletter
+\setbeamertemplate{title page}{
+	\begin{textblock*}{0.5\textwidth}(1.5cm,6.5cm)
+		\usebeamerfont{title}
+		\usebeamercolor[fg]{title} \fontsize{20pt}{22pt}\selectfont
+		{\inserttitle}
+	\end{textblock*}
+	
+	\ifx\insertsubtitle\@empty
+	\begin{textblock*}{0.45\textwidth}(9cm,6cm)
+		\usebeamerfont{author}
+		\usebeamercolor[fg]{author}
+		\footnotesize{\insertauthor}
+	\end{textblock*}
+	\begin{textblock*}{0.45\textwidth}(9cm,7cm)
+		\usebeamerfont{institute}
+		\usebeamercolor[fg]{institute}
+		\footnotesize{\insertinstitute}
+	\end{textblock*}
+	\else
+
+	\begin{textblock*}{0.45\textwidth}(9cm,5.9cm)
+		\usebeamerfont{subtitle}
+		\usebeamercolor[fg]{subtitle}
+		{\insertsubtitle}
+	\end{textblock*}
+	\begin{textblock*}{0.45\textwidth}(9cm,6.7cm)
+		\usebeamerfont{author}
+		\usebeamercolor[fg]{author}
+		\footnotesize{\insertauthor}
+	\end{textblock*}
+	\begin{textblock*}{0.45\textwidth}(9cm,7.5cm)
+		\usebeamerfont{institute}
+		\usebeamercolor[fg]{institute}
+		\footnotesize{\insertinstitute}
+	\end{textblock*}
+	\fi
+}
+\makeatother
+
+\setbeamertemplate{headline}{} % minimal space, no text
+\setbeamertemplate{section in head/foot}{\insertsectionhead\space}
+
+\newcommand{\closingframe}{
+	\begin{frame}[plain]
+		\setcounter{lastslide}{\value{framenumber}}
+	\end{frame}
+}
+\newcommand{\highlight}[1]{\textcolor{Gold}{\textbf{#1}}}
+
+\setbeamertemplate{footline}{%
+	\leavevmode%
+	\hbox{%
+		\hspace*{0.9\paperwidth}%
+		\usebeamercolor[bg]{page number in head/foot}%
+		\usebeamerfont{page number in head/foot}%
+		\insertframenumber/\inserttotalframenumber%
+		\hspace*{1em}%
+	}%
+	\vspace{5pt} % minimal gap below
+}
